@@ -67,6 +67,9 @@ public class MainHandler {
 			case NewRecipeSuccess addSucc -> {
 				usrResp = new NewRecipeResponse(addSucc);
 			}
+			case SearchAccessResponse srchResp -> {
+				usrResp = new SearchResponse(srchResp);
+			}
 			default -> {
 
 			}

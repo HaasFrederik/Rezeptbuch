@@ -1,7 +1,9 @@
 package backend.comm;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import backend.comm.UserRequest.NewRecipeRequest;
 import backend.comm.UserRequest.SearchRequest;
@@ -29,9 +31,15 @@ public class MemoryRequest extends Comm {
 		public List<Path> restrictionPaths;
 		public List<Path> ingredientPaths;
 		public List<Path> componentPaths;
+		public List<String> restrictions;
+		public List<String> ingredients;
+		public List<String> components;
 
 		public NewRecipeFileRequest(NewRecipeRequest addReq) {
-			this.recipeName = addReq.recipeName;
+			recipeName = addReq.recipeName;
+			restrictions = addReq.restrictions;
+			ingredients = addReq.ingredients;
+			components = addReq.components;
 			recipePath = PathLib.RECIPE_FOLDER_PATH.resolve(recipeName + ".txt");
 			
 			for (String restriction : addReq.restrictions) {
@@ -65,18 +73,17 @@ public class MemoryRequest extends Comm {
 	
 	public static class SearchAccessRequest extends MemoryRequest {
 
+		public boolean intersectionSearchToggle;
+		public Map<Path, List<String>> folderPathFilterNamesMap = new HashMap<Path, List<String>>();
+		public String recipeName;
+		
 		public SearchAccessRequest(SearchRequest srchReq) {
-//			TODO search dem files
-			
-//			all filters must be satisfied (&&)
-			if(srchReq.conjunctiveSearchToggle) {
-//				create all necessary filter-file-paths
-				
-			}
-//			any recipe satisfying one filter (||)
-			else {
-				
-			}
+//			TODO create folderpaths
+			recipeName = srchReq.searchName;
+			intersectionSearchToggle = srchReq.intersectionSearchToggle;
+			folderPathFilterNamesMap.put(PathLib.RESTRICTION_FOLDER_PATH, srchReq.searchRestrictions);
+			folderPathFilterNamesMap.put(PathLib.INGREDIENT_FOLDER_PATH, srchReq.searchIngredients);
+			folderPathFilterNamesMap.put(PathLib.COMPONENT_FOLDER_PATH, srchReq.searchComponents);
 		}
 		
 	}

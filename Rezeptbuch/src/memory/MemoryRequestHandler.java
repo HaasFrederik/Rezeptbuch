@@ -3,12 +3,14 @@ package memory;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.List;
 
 import backend.comm.MemoryRequest;
 import backend.comm.MemoryRequest.*;
 import backend.comm.MemoryResponse;
 import backend.comm.MemoryResponse.NewRecipeSuccess;
 import backend.comm.MemoryResponse.ReadAccessResponse;
+import backend.comm.MemoryResponse.SearchAccessResponse;
 import backend.handle.MainHandler;
 
 public class MemoryRequestHandler {
@@ -16,6 +18,7 @@ public class MemoryRequestHandler {
 	public static void handle(MemoryRequest memReq) {
 		MemoryResponse memResp = null;
 		switch (memReq) {
+		
 		case ReadAccessRequest readReq -> {
 			String recipeText = "oops";
 			try {
@@ -26,6 +29,8 @@ public class MemoryRequestHandler {
 			}
 			memResp = new ReadAccessResponse(recipeText);
 		}
+		
+//		TODO add updating of occurrence-counter files for filters
 		case NewRecipeFileRequest addReq -> {
 			boolean isNew = false;
 			try {
@@ -49,13 +54,20 @@ public class MemoryRequestHandler {
 					break;
 				}
 			} else {
-//				TODO Recipe not new, mentioned in at least one of the affected files
-//				create memoryResonse that encapsulates that
 				memResp = new NewRecipeSuccess(false, "Recipe already mentioned in files. Consider validating files.");
 			}
-			
-
 		}
+		
+		case SearchAccessRequest srchReq -> {
+			try {
+				List<String> searchResults = FileUtils.search(srchReq);
+				memResp = new SearchAccessResponse(searchResults);
+			} catch (IOException i) {
+				memResp = new SearchAccessResponse(i.getMessage());
+				i.printStackTrace();
+			}
+		}
+		
 		default -> {
 			System.out.println("MemoryRequest-type not recognised by MemoryRequestHandler");
 		}

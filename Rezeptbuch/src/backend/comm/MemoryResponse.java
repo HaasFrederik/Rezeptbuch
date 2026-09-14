@@ -1,5 +1,8 @@
 package backend.comm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MemoryResponse extends Comm{
 
 	public static class EditAccessResponse extends MemoryResponse {
@@ -33,6 +36,18 @@ public class MemoryResponse extends Comm{
 	}
 	
 	public static class SearchAccessResponse extends MemoryResponse {
+		
+		List<String> searchResults;
+		String errorMessage;
+		
+		public SearchAccessResponse(List<String> searchResults) {
+			this.searchResults = searchResults;
+		}
+		
+		public SearchAccessResponse(String msg) {
+			errorMessage = msg;
+			searchResults = new ArrayList<String>();
+		}
 		
 	}
 	

@@ -6,10 +6,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import backend.comm.MemoryResponse.NewRecipeSuccess;
+import backend.comm.MemoryResponse.SearchAccessResponse;
 
 public class UserResponse extends Comm {
 
 	public static class SearchResponse extends UserResponse {
+
+		List<String> results;
+		String errorMessage;
+		
+		public SearchResponse(SearchAccessResponse srchResp) {
+			results = srchResp.searchResults;
+			errorMessage = srchResp.errorMessage;
+		}
 
 	}
 

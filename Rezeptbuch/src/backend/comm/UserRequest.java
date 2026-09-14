@@ -11,14 +11,14 @@ public class UserRequest extends Comm {
 		public List<String> searchRestrictions;
 		public List<String> searchIngredients;
 		public List<String> searchComponents;
-		public boolean conjunctiveSearchToggle;
+		public boolean intersectionSearchToggle;
 		
 		public SearchRequest(GUIState gui) {
 			searchName = gui.searchName;
 			searchRestrictions = gui.searchRestrictions;
 			searchIngredients = gui.searchIngredients;
 			searchComponents = gui.searchComponents;
-			conjunctiveSearchToggle = gui.conjunctiveSearchToggle;
+			intersectionSearchToggle = gui.conjunctiveSearchToggle;
 		}
 	}
 
